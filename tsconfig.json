@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "target": "ES2015",
+    "module": "commonjs",
+    "lib": ["ES2015"],
     "rootDir": "src", // Diretório de códigos Typescript
     "outDir": "lib", // Diretório de saída para os arquivos compilados
     "sourceMap": true, // Gera mapas de origem para facilitar o debug
@@ -7,7 +10,9 @@
     "noImplicitReturns": true, // Verifica se todas as funções possuem tipo de retorno informado
     "noEmitOnError": true, // Não gera código JS caso haja algum erro durante o processo de compilação
     "strictNullChecks": true, // Força a verificação de valores null ou undefined
-    "noUnusedLocals": true // Sinaliza quando existem variáveis declaradas e não utilizadas
+    "noUnusedLocals": true, // Sinaliza quando existem variáveis declaradas e não utilizadas
+    "skipLibCheck": true, // Evitar erros em .d.ts de terceiros, ou seja, pula chegagem dos tipos dem biblioteca da pasta node_modules.
+
   },
   "compileOnSave": true,
   "include": ["src/**/*"],
