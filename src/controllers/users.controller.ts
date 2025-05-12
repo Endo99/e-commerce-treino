@@ -45,9 +45,7 @@ export class UsersController {
         
         const userSalvo = await getFirestore().collection("users").add(user);
 
-        res.send({
-            message: `Usuário ${userSalvo.id} criado com sucesso!`
-        })
+        res.status(201).end(`Usuário ${userSalvo.id} criado com sucesso!`)
     
     }
 
@@ -72,8 +70,6 @@ export class UsersController {
     
         await getFirestore().collection("users").doc(userId).delete()
     
-        res.send({
-            message: "Usário excluído com sucesso!"
-        })
+        res.status(204).end()
     }
 }
