@@ -1,6 +1,8 @@
 import { Response, Request, NextFunction } from "express";
 //import { messaging } from "firebase-admin";
 import { getFirestore } from "firebase-admin/firestore"
+import { ValidationError } from "../errors/validation.error";
+import { NotFoundError } from "../errors/not-found.errors";
 
 type User = {
     id: number;
@@ -12,63 +14,59 @@ type User = {
 export class UsersController {
     static async getAll(req: Request, res: Response, next: NextFunction) {
 
-        try {
-            const snapshot = await getFirestore().collection("users").get();
-            throw new Error("");
-            const users = snapshot.docs.map(doc => {
-                return {
-                    id: doc.id,
-                    ...doc.data()
+        const snapshot = await getFirestore().collection("users").get();
+        const users = snapshot.docs.map(doc => {
+            return {
+                id: doc.id,
+                ...doc.data()
 
-                };
-            });
-            res.send(users);
-        } catch (error) {
-            next(error);
-        }
+            };
+        });
+        res.send(users);
 
     }
 
-    static async getById(req: Request, res: Response) {
-        try {
-            let userId = req.params.id;
+    static async getById(req: Request, res: Response, next: NextFunction) {
+        let userId = req.params.id;
 
-            const doc = await getFirestore().collection("users").doc(userId).get();
+        const doc = await getFirestore().collection("users").doc(userId).get();
+
+        if (doc.exists) {
 
             res.send({
                 id: doc.id,
                 ...doc.data()
             });
-        } catch (error) {
-            res.status(500).send({
-                message: "Erro Interno do Servidor"
-            });
+        }
+        else {
+            throw new NotFoundError("Usuário não encontrado!");
         }
 
     }
 
-    static async save(req: Request, res: Response) {
-        try {
-            let user = req.body;
+    static async save(req: Request, res: Response, next: NextFunction) {
 
-            const userSalvo = await getFirestore().collection("users").add(user);
+        let user = req.body;
 
-            res.status(201).end(`Usuário ${userSalvo.id} criado com sucesso!`)
-        } catch (erro) {
-            res.status(500).send({
-                message: "Erro Interno do Servidor"
-            });
+        if (!user.email || user.email?.length === 0) {
+            throw new ValidationError("E-mail obrigatório!");
         }
+
+        const userSalvo = await getFirestore().collection("users").add(user);
+
+        res.status(201).end(`Usuário ${userSalvo.id} criado com sucesso!`)
 
     }
 
-    static updateById(req: Request, res: Response) {
+    static async updateById(req: Request, res: Response, next: NextFunction) {
 
-        try {
-            let userId = req.params.id;
-            let user = req.body as User;
+        let userId = req.params.id;
+        let user = req.body as User;
 
-            getFirestore().collection("users").doc(userId).set({
+        let docRef = getFirestore().collection("users").doc(userId); // Referência
+
+        if ((await docRef.get()).exists) {
+            await docRef.set({
                 nome: user.nome,
                 email: user.email
             });
@@ -76,14 +74,13 @@ export class UsersController {
             res.send({
                 message: "Usuário alterado com sucesso!"
             });
-        } catch (error) {
-            res.status(500).send(({
-                message: "Erro Interno do Servidor",
-            }));
-        };
+        } else {
+            throw new NotFoundError("Usuário não encontrado!");
+        }
     }
 
-    static async deleteById(req: Request, res: Response) {
+    static async deleteById(req: Request, res: Response, next: NextFunction) {
+
         let userId = req.params.id;
 
         await getFirestore().collection("users").doc(userId).delete()
