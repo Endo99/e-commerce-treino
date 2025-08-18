@@ -3,8 +3,10 @@ import {Request, Response, NextFunction} from "express";
 import { ValidationError } from "../errors/validation.error";
 import { InternalServerError } from "../errors/internal-server.error";
 import { NotFoundError } from "../errors/not-found.errors";
+import { errors } from "celebrate";
 
 export const errorHandle = (app: express.Express) => {
+    app.use(errors());
     app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 
         if (error instanceof ValidationError) {
