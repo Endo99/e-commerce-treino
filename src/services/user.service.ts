@@ -1,5 +1,5 @@
 import { User } from '../models/users.models';
-import { NotFoundError } from "../errors/not-found.errors";
+import { NotFoundError } from "../errors/not-found.error";
 import { UserRepository } from "../repository/user.respository";
 import { AuthService } from './auth.service';
 
@@ -43,10 +43,12 @@ export class UserService {
         _user.nome = user.nome;
         _user.email = user.email;
 
-        this.userRepository.updateById(_user);
+        await this.authService.update(id, user);
+        await this.userRepository.updateById(_user);
     }
 
     async deleteById(id: string): Promise<void> {
+        await this.authService.delete(id);
         return this.userRepository.deleteById(id);
     }
 

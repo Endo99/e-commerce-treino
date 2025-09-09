@@ -32,6 +32,14 @@ export class UserRepository {
     }
   }
 
+  async create(user: User): Promise<void> {
+    delete user.password;
+    await this.collection.doc(user.id).set({
+      nome: user.nome,
+      email: user.email
+    });
+  }
+
   async save(user: User): Promise<void> {
     delete user.password;
     await this.collection.add(user);
@@ -40,13 +48,11 @@ export class UserRepository {
   async updateById(user: User): Promise<void> {
 
     let docRef = this.collection.doc(user.id);
-
-    if ((await docRef.get()).exists) {
-      await docRef.set({
+    
+    await docRef.set({
         nome: user.nome,
         email: user.email
       });
-    }
   }
 
   async deleteById(id: string): Promise<void> {

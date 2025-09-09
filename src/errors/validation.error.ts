@@ -1,4 +1,4 @@
-import { ErrorBase } from "./base.errors";
+import { ErrorBase } from "./base.error";
 
 export class ValidationError extends ErrorBase {
 
