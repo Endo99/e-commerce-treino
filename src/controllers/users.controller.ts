@@ -1,23 +1,23 @@
-import { Response, Request, NextFunction } from "express";
+import { Response, Request } from "express";
 //import { messaging } from "firebase-admin";
 import { User } from "../models/users.models";
 import { UserService } from "../services/user.service";
 
 export class UsersController {
-    static async getAll(req: Request, res: Response, next: NextFunction) {
+    static async getAll(req: Request, res: Response) {
         
         res.send(await new UserService().getAll());
 
     }
 
-    static async getById(req: Request, res: Response, next: NextFunction) {
+    static async getById(req: Request, res: Response) {
         let userId = req.params.id;
 
         res.send(await new UserService().getByid(userId));
 
     }
 
-    static async save(req: Request, res: Response, next: NextFunction) {
+    static async save(req: Request, res: Response) {
 
         await new UserService().save(req.body);
 
@@ -25,7 +25,7 @@ export class UsersController {
 
     }
 
-    static async updateById(req: Request, res: Response, next: NextFunction) {
+    static async updateById(req: Request, res: Response) {
 
         let userId = req.params.id;
         let user = req.body as User;
@@ -38,7 +38,7 @@ export class UsersController {
 
     }
 
-    static async deleteById(req: Request, res: Response, next: NextFunction) {
+    static async deleteById(req: Request, res: Response) {
 
         let userId = req.params.id;
 
