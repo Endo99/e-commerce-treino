@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { UsersController } from "../controllers/users.controller";
+import { UsersController } from "../controllers/users.controller.js";
 import asyncHandler = require("express-async-handler");
 import { celebrate, Segments } from "celebrate";
-import { newUserSchema, updateUserSchema } from "../models/users.models";
+import { newUserSchema, updateUserSchema } from "../models/users.models.js";
 
 export const userRoutes = Router();
 

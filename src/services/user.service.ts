@@ -1,7 +1,7 @@
-import { User } from '../models/users.models';
-import { NotFoundError } from "../errors/not-found.error";
-import { UserRepository } from "../repository/user.respository";
-import { AuthService } from './auth.service';
+import { User } from '../models/users.models.js';
+import { NotFoundError } from "../errors/not-found.error.js";
+import { UserRepository } from "../repository/user.respository.js";
+import { AuthService } from './auth.service.js';
 
 export class UserService {
 
@@ -35,10 +35,7 @@ export class UserService {
 
     async upadateById(id: string, user: User): Promise<void> {
 
-        const _user = await this.userRepository.getById(id)
-        if (!_user) {
-            throw new NotFoundError("Usuário não encontrado!");
-        }
+        const _user = await this.getByid(id);
 
         _user.nome = user.nome;
         _user.email = user.email;

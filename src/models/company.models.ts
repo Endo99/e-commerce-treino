@@ -15,7 +15,7 @@ export type Company = {
 }
 
 export const newCompanySchema = Joi.object().keys({
-    logomarca: Joi.string().allow(null),
+    logomarca: Joi.string().base64().required(),
     cpfCnpj: Joi.alternatives().try(
         Joi.string().length(11).required(), // CPF
         Joi.string().length(14).required()  // CNPJ
@@ -32,11 +32,14 @@ export const newCompanySchema = Joi.object().keys({
 
 
 export const updateCompanySchema = Joi.object().keys({
-    logomarca: Joi.string().allow(null),
+    logomarca: Joi.alternatives().try(
+        Joi.string().base64().required(),
+        Joi.string().uri().required()
+    ).required(),
     cpfCnpj: Joi.alternatives().try(
         Joi.string().length(11).required(), // CPF
         Joi.string().length(14).required()  // CNPJ
-    ),
+    ).required(),
     razaoSocial: Joi.string().required(),
     nomeFantasia: Joi.string().required(),
     telefone: Joi.string().regex(/(^[1-9]{1}[0-9]{1}[0-9]{8}$)|(^[1-9]{1}[0-9]{1}[9]{1}[0-9]{8}$)/).required(),

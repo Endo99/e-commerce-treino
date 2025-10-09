@@ -1,8 +1,8 @@
 import { Router } from "express"
 import asyncHandler = require("express-async-handler");
-import { AuthController } from "../controllers/auth.controller";
+import { AuthController } from "../controllers/auth.controller.js";
 import { celebrate, Segments } from "celebrate";
-import { authLoginSchema, authRecoverySchema } from "../models/users.models";
+import { authLoginSchema, authRecoverySchema } from "../models/users.models.js";
 
 export const authRoutes = Router();
 

@@ -1,0 +1,56 @@
+import { CollectionReference, getFirestore } from "firebase-admin/firestore";
+import { Product } from "../models/product.models.js";
+
+export class ProductRepository {
+
+  private collection: CollectionReference;
+
+  constructor() {
+    this.collection = getFirestore().collection("products");
+  }
+
+  async getAll(): Promise<Product[]> {
+    const snapshot = await this.collection.get();
+    return snapshot.docs.map(doc => {
+      return {
+        id: doc.id,
+        ...doc.data()
+      };
+    }) as Product[];
+  }
+
+  async getById(id: string): Promise<Product | null> {
+    const doc = await this.collection.doc(id).get();
+
+    if (doc.exists) {
+      return {
+        id: doc.id,
+        ...doc.data()
+      } as Product;
+    } else {
+      return null;
+    }
+  }
+
+  async save(product: Product): Promise<void> {
+    await this.collection.add(product);
+  }
+
+  async updateById(product: Product): Promise<void> {
+
+    let docRef = this.collection.doc(product.id!);
+
+    await docRef.set({
+        nome: product.nome,
+        descricao: product.descricao,
+        preco: product.preco,
+        imagem: product.imagem,
+        categoria: product.categoria,
+        ativa: product.ativa
+    });
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.collection.doc(id).delete();
+  }
+}

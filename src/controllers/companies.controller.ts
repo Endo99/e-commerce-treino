@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 //import { messaging } from "firebase-admin";
-import { CompanyService } from "../services/company.service";
-import { Company } from "../models/company.models";
+import { CompanyService } from "../services/company.service.js";
+import { Company } from "../models/company.models.js";
 
 export class CompaniesController {
     static async getAll(req: Request, res: Response) {
@@ -21,7 +21,9 @@ export class CompaniesController {
 
         await new CompanyService().save(req.body);
 
-        res.status(201).end(`Empresa criada com sucesso!`)
+        res.status(201).send({
+                message: `Empresa criada com sucesso!`
+            });
 
     }
 

@@ -1,9 +1,9 @@
 import express = require("express");
 import { Request, Response, NextFunction } from "express";
-import { UnauthorizedError } from "../errors/unauthorized.error";
+import { UnauthorizedError } from "../errors/unauthorized.error.js";
 import { DecodedIdToken, getAuth } from "firebase-admin/auth";
-import { UserService } from "../services/user.service";
-import { ForbiddenError } from "../errors/forbbiden.error";
+import { UserService } from "../services/user.service.js";
+import { ForbiddenError } from "../errors/forbbiden.error.js";
 
 export const auth = (app: express.Express) => {
     app.use(async (req: Request, res: Response, next: NextFunction) => {
@@ -11,11 +11,13 @@ export const auth = (app: express.Express) => {
             return next();
         }
 
-        const token =req.headers.authorization?.split("Bearer ")[1];
+        const token = req.headers.authorization?.split("Bearer ")[1];
 
         if (token) {
             try {
                 const decodedIdToken: DecodedIdToken =  await getAuth().verifyIdToken(token, true);
+
+                /*console.log(decodedIdToken);*/ // Debug line
                 
                 const user = await new UserService().getByid(decodedIdToken.uid);
                 if (!user) {

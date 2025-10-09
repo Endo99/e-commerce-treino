@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 //import { messaging } from "firebase-admin";
-import { User } from "../models/users.models";
-import { UserService } from "../services/user.service";
+import { User } from "../models/users.models.js";
+import { UserService } from "../services/user.service.js";
 
 export class UsersController {
     static async getAll(req: Request, res: Response) {
@@ -21,7 +21,9 @@ export class UsersController {
 
         await new UserService().save(req.body);
 
-        res.status(201).end(`Usuário criado com sucesso!`)
+        res.status(201).send({
+                message: `Usuário criado com sucesso!`
+            });
 
     }
 
