@@ -4,9 +4,12 @@ import { Product } from "../models/product.models.js";
 
 export class ProductsController {
     static async getAll(req: Request, res: Response) {
-
         res.send(await new ProductService().getAll());
+    }
 
+    static async search(req: Request, res: Response) {
+        const categoriaId = req.query.categoriaId as string;
+        res.send(await new ProductService().search(categoriaId));
     }
 
     static async getById(req: Request, res: Response) {
