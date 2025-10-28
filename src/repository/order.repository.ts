@@ -1,0 +1,47 @@
+import { CollectionReference, getFirestore } from "firebase-admin/firestore";
+import { Order, QueryParamsOrder } from "../models/order.model.js";
+import dayjs from "dayjs";
+
+export class OrderRepository {
+
+    private collection: CollectionReference;
+
+    constructor() {
+        this.collection = getFirestore().collection('orders');
+    }
+
+    async save(order: Order) {
+        await this.collection.add(order);
+    }
+
+    async search(queryParams: QueryParamsOrder): Promise<Order[]> {
+        let query: FirebaseFirestore.Query = this.collection;
+
+        if (queryParams.empresaId) {
+            query = query.where('empresa.id', '==', queryParams.empresaId);
+        }
+
+        if (queryParams.status) {
+            query = query.where('status', '==', queryParams.status);
+        }
+
+        if (queryParams.dataInicio) {
+            queryParams.dataInicio = dayjs(queryParams.dataInicio).startOf("day").toDate();
+            query = query.where('data', '>=', queryParams.dataInicio);
+        }
+
+        if (queryParams.dataFim) {
+            queryParams.dataFim = dayjs(queryParams.dataInicio).endOf("day").toDate();
+            query = query.where('data', '<=', queryParams.dataFim);
+        }
+
+        const snapshot = await query.get();
+
+        return snapshot.docs.map(doc => {
+            return {
+                id: doc.id,
+                ...doc.data()
+            } as unknown;
+        }) as Order[];
+    }
+}

@@ -5,6 +5,7 @@ import { CompanyRoutes } from "./companies.route.js";
 import { categoryRoutes } from "./categories.routes.js";
 import { productRoutes } from "./products.route.js";
 import { paymentMethodsRoutes } from "./payement-methods.route.js";
+import { orderRoutes } from "./orders.route.js";
 
 export const routes = (app: express.Express) => {
     app.use(express.json({ limit: "100mb" }));
@@ -14,4 +15,5 @@ export const routes = (app: express.Express) => {
     app.use(categoryRoutes);
     app.use(productRoutes);
     app.use(paymentMethodsRoutes);
+    app.use(orderRoutes);
 }
