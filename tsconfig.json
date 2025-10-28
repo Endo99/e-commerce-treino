@@ -12,6 +12,8 @@
     "strictNullChecks": true, // Força a verificação de valores null ou undefined
     "noUnusedLocals": true, // Sinaliza quando existem variáveis declaradas e não utilizadas
     "skipLibCheck": true, // Evitar erros em .d.ts de terceiros, ou seja, pula chegagem dos tipos dem biblioteca da pasta node_modules.
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
 
   },
   "compileOnSave": true,
