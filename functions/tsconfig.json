@@ -1,0 +1,25 @@
+{
+  "$schema": "httpps://json.schemastore.org/tsconfig",
+  "versions": "4.8",
+  "compilerOptions": {
+    "module": "node16",
+    "target": "es2022",
+    "strict": true,
+    "moduleResolution": "node16",
+    "rootDir": "src",
+    "outDir": "lib",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noEmitOnError": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+
+  },
+  "compileOnSave": true,
+  "include": ["src/**/*", "functions/src/utils", "functions/src/index.ts", "functions/src/services", "functions/src/routes", "functions/src/repository", "functions/src/models", "functions/src/middlewares", "functions/src/errors", "functions/src/controllers", "functions/src/@types"],
+  "exclude": ["**/*.spec.ts"]
+}
