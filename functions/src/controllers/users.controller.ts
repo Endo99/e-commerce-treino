@@ -11,6 +11,7 @@ export class UsersController {
     }
 
     static async getById(req: Request, res: Response) {
+        // eslint-disable-next-line prefer-const
         let userId = req.params.id;
 
         res.send(await new UserService().getByid(userId));

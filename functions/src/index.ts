@@ -1,4 +1,4 @@
-import express = require("express");
+import express from "express";
 import { initializeApp as initializeAdminApp} from "firebase-admin/app";
 import { initializeApp as initializeFirebaseApp} from "firebase/app";
 import { routes } from "./routes/index.js";

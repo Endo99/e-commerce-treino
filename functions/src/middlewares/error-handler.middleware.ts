@@ -1,4 +1,4 @@
-import express = require("express");
+import express from "express";
 import {Request, Response, NextFunction} from "express";
 import { InternalServerError } from "../errors/internal-server.error.js";
 import { errors } from "celebrate";

@@ -18,11 +18,9 @@ export class OrderRepository {
 
         const batch = getFirestore().batch();
 
-        // Cabeçalho do Pedido
         const orderRef = this.collection.doc();
         batch.create(orderRef, order);
 
-        // Itens do Pedido
         const itemsRef = orderRef.collection("items")
             .withConverter(orderItemConverter);
         for (let item of order.items!) {

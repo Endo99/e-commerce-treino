@@ -1,4 +1,4 @@
-import express = require("express");
+import express from "express";
 import { Request, Response, NextFunction } from "express";
 import { UnauthorizedError } from "../errors/unauthorized.error.js";
 import { DecodedIdToken, getAuth } from "firebase-admin/auth";

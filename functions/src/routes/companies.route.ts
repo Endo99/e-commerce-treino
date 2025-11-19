@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { CompaniesController } from "../controllers/companies.controller.js";
-import asyncHandler = require("express-async-handler");
+import asyncHandler from "express-async-handler";
 import { celebrate, Segments } from "celebrate";
 import { newCompanySchema, updateCompanySchema } from "../models/company.models.js";
 
